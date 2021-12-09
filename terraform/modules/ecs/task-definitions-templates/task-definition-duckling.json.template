@@ -1,0 +1,23 @@
+[
+  {
+    "name": "${container_name}",
+    "image": "${ecr_image_duckling_url}",
+    "memory": ${fargate_container_memory},
+    "cpu": ${fargate_container_cpu},
+    "networkMode": "awsvpc",
+    "portMappings": [
+      {
+        "containerPort": ${avb_duckling_port},
+        "hostPort": ${avb_duckling_port},
+        "protocol": "tcp"
+      }
+    ],
+    "healthCheck":{
+        "command": [ "CMD-SHELL", "curl -f http://localhost:${avb_duckling_port}/ || exit 1" ],
+        "interval": 300,
+        "timeout": 60,
+        "retries": 3,
+        "startPeriod": 300
+    }
+  }
+]
